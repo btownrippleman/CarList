@@ -24,7 +24,8 @@ local function onRowRender( event )
 	-- Make the row text
 	local brandText = g.brands[car.brand]
 	local styleText = g.styles[car.style]
-	local rowText = brandText .. " " .. styleText
+	local yearsText = g.years[car.year]
+	local rowText = yearsText .. " " .. brandText .. " " .. styleText
 
 	-- Draw the row
 	local rowHeight = row.contentHeight
@@ -43,6 +44,7 @@ function scene:editCar( index )
 	g.car = copyCarRecord( g.cars[index] )
 	composer.gotoScene( "car", { effect = "slideLeft", time = 350 } )
 end
+
 
 -- Handle a touch event for a row in the table widget
 local function onRowTouch( event )
@@ -88,10 +90,11 @@ local function addBtnPush(event)
 	scene:addCar()
 end
 
+
 -- Called when the scene's view does not exist.
 function scene:create( event )
 
-	local title = display.newText("All Cars",display.contentWidth*.5,20,"",18)
+	local title = display.newText("All Cars",display.contentWidth*.5,20,"",18) -- added for problem #1
 	title:setFillColor(0,0,0)
 	local sceneGroup = self.view
 
@@ -134,10 +137,13 @@ end
 
 -- Called when the scene is about to show or is now showing
 function scene:show( event )
+
 	local sceneGroup = self.view
 	local phase = event.phase
 
 	if phase == "will" then
+		self.tableView:deleteAllRows{} -- wow, this was all I had to do for #4 of the assignment .. aside from what I did in main.lua and car.lua
+
 		-- If we are coming back from editing a car, change the cars array
 		if g.car and g.carIndex then
 			g.cars[g.carIndex] = g.car
@@ -156,6 +162,7 @@ function scene:show( event )
 			self.tableView:reloadData()	 -- this crashes if there are 0 cars
 		end
 	elseif phase == "did" then
+
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
 	end

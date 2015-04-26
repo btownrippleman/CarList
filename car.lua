@@ -6,7 +6,7 @@
 
 local composer = require( "composer" )
 local scene = composer.newScene()
-
+local json = require "json"
 
 local widget = require( "widget" )
 
@@ -19,10 +19,13 @@ local g = globalAppData
 local function doneBtnPush( event )
 	-- Get the selected values from car picker wheel
 	local values = scene.carPicker:getValues()
-	local brand = values[1].index
-	local style = values[2].index
+	local year = values[1].index
+	local brand = values[2].index
+	local style = values[3].index
 
 	-- Save the data for the car we are currently editing
+
+	g.car.year = year
 	g.car.brand = brand
 	g.car.style = style
 
@@ -30,6 +33,20 @@ local function doneBtnPush( event )
 	-- Go back to the list view
 	composer.gotoScene( "list", { effect = "slideRight", time = 350 } )
 end
+
+
+
+function scene:deleteCar()
+	-- delete the selected car, go back to the list view
+   deleteCarRecord(g.carIndex)
+	g.carIndex = #g.cars - 1
+	composer.gotoScene( "list", { effect = "slideRight", time = 250 } )
+end
+
+local function deleteBtnPush(event)
+	 scene:deleteCar()
+end
+
 
 -- Handle a push of the Cancel button
 local function cancelBtnPush( event )
@@ -44,7 +61,7 @@ end
 -- Called when the scene's view does not exist.
 function scene:create( event )
 	local sceneGroup = self.view
-  self.carTitle = display.newText("Car #" ..g.carIndex, display.contentWidth/2,20,"",18)
+  self.carTitle = display.newText("Car #" ..g.carIndex, display.contentWidth/2,20,"",18) --added for problem #2
 	self.carTitle:setFillColor(0,0,0)
 	-- Make a light gray background
 	local bg = display.newRect( sceneGroup, g.xCenter, g.yCenter, g.width, g.height )
@@ -59,6 +76,15 @@ function scene:create( event )
 	    onRelease = cancelBtnPush
 	}
 	sceneGroup:insert( self.cancelBtn )
+
+	-- Create the Add (+) button
+	self.deleteBtn = widget.newButton{
+			left = g.width/2-23, top = g.height-10, width = 30, height = g.topMargin,
+			label = "Delete",
+			font = native.systemFontBold,
+			onRelease = deleteBtnPush
+	}
+	sceneGroup:insert( self.deleteBtn )
 
 	-- Create the Done button
 	self.doneBtn = widget.newButton{
@@ -87,19 +113,28 @@ function scene:show( event )
 		-- to programmatically change the selection for a new use.
 		self.carPicker = widget.newPickerWheel{
 			top = g.topMargin,
-			fontSize = 18,
+			fontSize = 16,
 			columns = {
 				-- Left column is car brands
 				{
 					align = "left",
+					labels = g.years,
+					startIndex = g.car.year,
+
+				},
+				-- Middle column is car body styles
+				{
+					align = "center",
 					labels = g.brands,
 					startIndex = g.car.brand,
+
 				},
-				-- Right column is car body styles
+				-- Middle column is car body styles
 				{
 					align = "right",
 					labels = g.styles,
 					startIndex = g.car.style,
+
 				}
 			}
 		}
