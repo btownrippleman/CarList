@@ -80,7 +80,7 @@ function scene:addCar()
 	-- Make a new default car and edit it in the car view
 	g.carIndex = #g.cars + 1   -- Add new car past end of current list
 	g.car = defaultCarRecord()
-	composer.gotoScene( "car", { effect = "slideLeft", time = 350 } )
+	composer.gotoScene( "car", { effect = "slideLeft", time = 250 } )
 end
 
 -- Handle a push on the Add (+) button

@@ -50,6 +50,7 @@ globalAppData =
 	-- The car being edited in the detail scenes
 	car = nil;  	 -- a copy of the car record being edited, or nil if none
 	carIndex = nil;	 -- index of car in cars array being edited, or nil if none
+	carTitle = nil;
 }
 
 -- File local reference to the global data

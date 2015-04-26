@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+
 local widget = require( "widget" )
 
 
@@ -43,10 +44,12 @@ end
 -- Called when the scene's view does not exist.
 function scene:create( event )
 	local sceneGroup = self.view
-
+  self.carTitle = display.newText("Car #" ..g.carIndex, display.contentWidth/2,20,"",18)
+	self.carTitle:setFillColor(0,0,0)
 	-- Make a light gray background
 	local bg = display.newRect( sceneGroup, g.xCenter, g.yCenter, g.width, g.height )
 	bg:setFillColor( 0.9 )
+	sceneGroup:insert(bg)
 
 	-- Create the Cancel button
 	self.cancelBtn = widget.newButton{
@@ -65,7 +68,7 @@ function scene:create( event )
 	    onRelease = doneBtnPush
 	}
 	sceneGroup:insert( self.doneBtn )
-
+	sceneGroup:insert( self.carTitle )
 end
 
 -- Called when the scene is about to show or is now showing
@@ -75,12 +78,10 @@ function scene:show( event )
 
 	if phase == "will" then
 
-		if title== nil then
-		title = display.newText("", g.width*.5,20,"",18)
-		title:setFillColor(0,0,0)
-	  else
-			title.text = "Car #" .. g.carIndex
-		end
+	if self.carTitle then
+		self.carTitle.text = "Car #" .. g.carIndex
+	end
+
 		-- Create the car brand and body style picker wheel.
 		-- This widget needs to be temporary because there is no way
 		-- to programmatically change the selection for a new use.
@@ -103,7 +104,6 @@ function scene:show( event )
 			}
 		}
 		sceneGroup:insert( self.carPicker )
-		sceneGroup:insert(title)
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
 		--
@@ -121,6 +121,8 @@ function scene:hide( event )
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
 	elseif phase == "did" then
+
+
 		-- Remove the picker wheel
 		if self.carPicker then
 			self.carPicker:removeSelf()
