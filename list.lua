@@ -138,6 +138,7 @@ end
 -- Called when the scene is about to show or is now showing
 function scene:show( event )
 
+
 	local sceneGroup = self.view
 	local phase = event.phase
 
@@ -157,7 +158,9 @@ function scene:show( event )
 			t:insertRow{}
 		end
 
+		self.tableView:scrollToY( { y=0, time=0, onComplete=scrollComplete } )
 		-- Init or reload the table widget for any changes made after editing
+
 		if t:getNumRows() > 0 then
 			self.tableView:reloadData()	 -- this crashes if there are 0 cars
 		end
