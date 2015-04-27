@@ -162,7 +162,7 @@ end
 
 -- Return a copy of the car record at car
 function copyCarRecord( car )
-	return { year = car.year, brand = car.brand, style = car.style }
+	return { year = car.year, brand = car.brand, style = car.style, color = car.color }
 end
 
 function deleteCarRecord( car ) -- added for problem #4 of the assignment, deletes a car from the table

@@ -25,7 +25,8 @@ local function onRowRender( event )
 	local brandText = g.brands[car.brand]
 	local styleText = g.styles[car.style]
 	local yearsText = g.years[car.year]
-	local rowText = yearsText .. " " .. brandText .. " " .. styleText
+	local color     = g.colors[car.color]
+	local rowText = yearsText .. " " .. brandText .. " " .. styleText .. " "
 
 	-- Draw the row
 	local rowHeight = row.contentHeight
@@ -35,6 +36,25 @@ local function onRowRender( event )
 	rowTitle.anchorX = 0  	-- left aligned
 	rowTitle.x = 15	 	-- leave a small left margin
 	rowTitle.y = rowHeight * 0.5  -- vertically centered
+end
+
+if color then colorButtonWidgetMake(row) end
+
+local function colorButtonWidgetMake(row)
+
+
+					local button = widget.newButton{
+							left = g.width - 90 , top = row.y, width = 90, height = row.height,
+							label = row.color,
+							font = native.systemFontBold,
+							onRelease = editColorBtnPush
+					}
+			row:insert(button)
+end
+
+
+local function editColorBtnPush()
+
 end
 
 -- Edit the car at the given index in the list in details view

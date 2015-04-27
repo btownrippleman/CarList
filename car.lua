@@ -47,6 +47,10 @@ local function deleteBtnPush(event)
 	 scene:deleteCar()
 end
 
+local function addColorBtnPush(event)
+	composer.gotoScene( "color", { effect = "slideLeft", time = 350 } )
+end
+
 
 -- Handle a push of the Cancel button
 local function cancelBtnPush( event )
@@ -63,6 +67,7 @@ function scene:create( event )
 	local sceneGroup = self.view
   self.carTitle = display.newText("Car #" ..g.carIndex, display.contentWidth/2,20,"",18) --added for problem #2
 	self.carTitle:setFillColor(0,0,0)
+	sceneGroup:insert( self.carTitle )
 	-- Make a light gray background
 	local bg = display.newRect( sceneGroup, g.xCenter, g.yCenter, g.width, g.height )
 	bg:setFillColor( 0.9 )
@@ -77,15 +82,8 @@ function scene:create( event )
 	}
 	sceneGroup:insert( self.cancelBtn )
 
-	self.addColorBtn = widget.newButton{
-			left = g.width/2 - 45 , top = 10, width = 90, height = g.topMargin,
-			label = "Color",
-			font = native.systemFontBold,
-			onRelease = addColorBtnPush
-	}
-	sceneGroup:insert( self.addColorBtn )
 
-
+	-- Create the Delete button
 	self.deleteBtn = widget.newButton{
 			left = g.width/2-23, top = g.height-10, width = 30, height = g.topMargin,
 			label = "Delete",
@@ -102,7 +100,16 @@ function scene:create( event )
 	    onRelease = doneBtnPush
 	}
 	sceneGroup:insert( self.doneBtn )
-	sceneGroup:insert( self.carTitle )
+
+	-- Create the Color picked button
+	self.colorBtn = widget.newButton{
+				left = g.width - 70, top = g.height/2+70, width = 70, height = g.topMargin,
+				label = g.colors[g.car.color],
+				font = native.systemFontBold,
+				onRelease = addColorBtnPush
+		}
+		sceneGroup:insert( self.colorBtn )
+
 end
 
 -- Called when the scene is about to show or is now showing
@@ -111,6 +118,10 @@ function scene:show( event )
 	local phase = event.phase
 
 	if phase == "will" then
+		if g.car.color then
+			self.colorBtn:setLabel(g.colors[g.car.color])
+
+		end
 
 	if self.carTitle then
 		self.carTitle.text = "Car #" .. g.carIndex

@@ -18,27 +18,18 @@ local g = globalAppData
 -- Handle a push of the Done button
 local function doneBtnPush( event )
 	-- Get the selected values from car picker wheel
-	local values = scene.carPicker:getValues()
-	local year = values[1].index
-	local brand = values[2].index
-	local style = values[3].index
-
-	-- Save the data for the car we are currently editing
-
-	g.car.year = year
-	g.car.brand = brand
-	g.car.style = style
-
-
+	local values = scene.colorPicker:getValues()
+	local color = values[1].index  -- Save the data for the car we are currently selecting
+  g.car.color = color
 	-- Go back to the list view
-	composer.gotoScene( "list", { effect = "slideLeft", time = 350 } )
+	composer.gotoScene( "car", { effect = "slideRight", time = 350 } )
 end
 
 -- Handle a push of the Cancel button
 local function cancelBtnPush( event )
 
 	-- Go back to the list view
-	composer.gotoScene( "list", { effect = "slideLeft", time = 350 } )
+	composer.gotoScene( "car", { effect = "slideRight", time = 350 } )
 end
 
 -- Called when the scene's view does not exist.
@@ -66,8 +57,7 @@ function scene:create( event )
 	    onRelease = doneBtnPush
 	}
 	sceneGroup:insert( self.doneBtn )
-	sceneGroup:insert( self.carTitle )
-end
+ end
 
 -- Called when the scene is about to show or is now showing
 function scene:show( event )
@@ -76,41 +66,29 @@ function scene:show( event )
 
 	if phase == "will" then
 
-	if self.carTitle then
-		self.carTitle.text = "Car #" .. g.carIndex
-	end
+
+
 
 		-- Create the car brand and body style picker wheel.
 		-- This widget needs to be temporary because there is no way
 		-- to programmatically change the selection for a new use.
-		self.carPicker = widget.newPickerWheel{
+		self.colorPicker = widget.newPickerWheel{
 			top = g.topMargin,
 			fontSize = 16,
 			columns = {
-				-- Left column is car brands
-				{
-					align = "left",
-					labels = g.years,
-					startIndex = g.car.year,
 
-				},
 				-- Middle column is car body styles
 				{
 					align = "center",
-					labels = g.brands,
-					startIndex = g.car.brand,
+					labels = g.colors,
+					startIndex = 3,
 
 				},
 				-- Middle column is car body styles
-				{
-					align = "right",
-					labels = g.styles,
-					startIndex = g.car.style,
 
-				}
 			}
 		}
-		sceneGroup:insert( self.carPicker )
+		sceneGroup:insert( self.colorPicker )
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
 		--
@@ -131,9 +109,9 @@ function scene:hide( event )
 
 
 		-- Remove the picker wheel
-		if self.carPicker then
-			self.carPicker:removeSelf()
-			self.carPicker = nil
+		if self.colorPicker then
+			self.colorPicker:removeSelf()
+			self.colorPicker = nil
 		end
 	end
 end
