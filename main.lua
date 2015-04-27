@@ -125,6 +125,23 @@ globalAppData =
 		"Truck",
 	},
 
+	colors = {
+		"black",
+		"white",
+		"grey",
+		"red",
+		"orange",
+		"yellow",
+		"green",
+		"light blue",
+		"blue",
+		"indigo",
+		"violet",
+		"camouflage"
+
+
+	},
+
 	-- The list of cars that the user is creating.
 	-- This is an array of car records.
 	-- A car record is a table { year =  yearsIndex, brand = brandIndex, style = styleIndex }
@@ -148,7 +165,7 @@ function copyCarRecord( car )
 	return { year = car.year, brand = car.brand, style = car.style }
 end
 
-function deleteCarRecord( car ) -- added for problem #4 of the assignment
+function deleteCarRecord( car ) -- added for problem #4 of the assignment, deletes a car from the table
     table.remove(g.cars, car)
   end
 

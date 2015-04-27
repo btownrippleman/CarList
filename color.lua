@@ -31,39 +31,20 @@ local function doneBtnPush( event )
 
 
 	-- Go back to the list view
-	composer.gotoScene( "list", { effect = "slideRight", time = 350 } )
+	composer.gotoScene( "list", { effect = "slideLeft", time = 350 } )
 end
-
-
-
-function scene:deleteCar()
-	-- delete the selected car, go back to the list view
-   deleteCarRecord(g.carIndex)
-	g.carIndex = #g.cars - 1
-	composer.gotoScene( "list", { effect = "slideRight", time = 250 } )
-end
-
-local function deleteBtnPush(event)
-	 scene:deleteCar()
-end
-
 
 -- Handle a push of the Cancel button
 local function cancelBtnPush( event )
-	-- Clear the reference to the car being edited
-	g.car = nil
-	g.carIndex = nil
 
 	-- Go back to the list view
-	composer.gotoScene( "list", { effect = "slideRight", time = 350 } )
+	composer.gotoScene( "list", { effect = "slideLeft", time = 350 } )
 end
 
 -- Called when the scene's view does not exist.
 function scene:create( event )
 	local sceneGroup = self.view
-  self.carTitle = display.newText("Car #" ..g.carIndex, display.contentWidth/2,20,"",18) --added for problem #2
-	self.carTitle:setFillColor(0,0,0)
-	-- Make a light gray background
+ 	-- Make a light gray background
 	local bg = display.newRect( sceneGroup, g.xCenter, g.yCenter, g.width, g.height )
 	bg:setFillColor( 0.9 )
 	sceneGroup:insert(bg)
@@ -76,23 +57,6 @@ function scene:create( event )
 	    onRelease = cancelBtnPush
 	}
 	sceneGroup:insert( self.cancelBtn )
-
-	self.addColorBtn = widget.newButton{
-			left = g.width/2 - 45 , top = 10, width = 90, height = g.topMargin,
-			label = "Color",
-			font = native.systemFontBold,
-			onRelease = addColorBtnPush
-	}
-	sceneGroup:insert( self.addColorBtn )
-
-
-	self.deleteBtn = widget.newButton{
-			left = g.width/2-23, top = g.height-10, width = 30, height = g.topMargin,
-			label = "Delete",
-			font = native.systemFontBold,
-			onRelease = deleteBtnPush
-	}
-	sceneGroup:insert( self.deleteBtn )
 
 	-- Create the Done button
 	self.doneBtn = widget.newButton{
