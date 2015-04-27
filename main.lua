@@ -157,7 +157,7 @@ local g = globalAppData
 
 -- Construct and return a default car record.
 function defaultCarRecord( yearsIndex, brandIndex, styleIndex )
-	return { year = 65, brand = 3, style = 2}   -- 1987 Chevrolet Sedan
+	return { year = 65, brand = 3, style = 2, color = 3}   -- 1987 Chevrolet Sedan
 end
 
 -- Return a copy of the car record at car
