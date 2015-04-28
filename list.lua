@@ -113,10 +113,13 @@ end
 
 -- Called when the scene's view does not exist.
 function scene:create( event )
+	local sceneGroup = self.view
+
 
 	local title = display.newText("All Cars",display.contentWidth*.5,20,"",18) -- added for problem #1
 	title:setFillColor(0,0,0)
-	local sceneGroup = self.view
+	sceneGroup:insert( title )
+
 
 	-- Make a light gray background
 	local bg = display.newRect( sceneGroup, g.xCenter, g.yCenter, g.width, g.height )
@@ -151,7 +154,6 @@ function scene:create( event )
 	    onRowTouch = onRowTouch,
 	}
 	sceneGroup:insert( self.tableView )
-	sceneGroup:insert( title )
 
 end
 

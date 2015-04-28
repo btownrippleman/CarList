@@ -103,8 +103,8 @@ function scene:create( event )
 
 	-- Create the Color picked button
 	self.colorBtn = widget.newButton{
-				left = g.width - 70, top = g.height/2+70, width = 70, height = g.topMargin,
-				label = g.colors[g.car.color],
+				left = g.width - 115, top = g.height/2+70, width = 70, height = g.topMargin,
+				label = "Color: " .. g.colors[g.car.color],
 				font = native.systemFontBold,
 				onRelease = addColorBtnPush
 		}
@@ -119,7 +119,7 @@ function scene:show( event )
 
 	if phase == "will" then
 		if g.car.color then
-			self.colorBtn:setLabel(g.colors[g.car.color])
+			self.colorBtn:setLabel("Color: " .. g.colors[g.car.color])
 
 		end
 
